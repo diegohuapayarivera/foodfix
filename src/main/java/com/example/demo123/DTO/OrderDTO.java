@@ -7,17 +7,17 @@ import java.util.List;
 
 public class OrderDTO {
 
-    private Integer id;
+    private String id;
 
     private Integer table;
     private String strartOrder;
     private List<PlateDTO> plates;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
