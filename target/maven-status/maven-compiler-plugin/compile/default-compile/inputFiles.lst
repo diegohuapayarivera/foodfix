@@ -1,0 +1,11 @@
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/model/Sale.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/DTO/PlateDTO.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/repository/PlateRepository.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/model/Plate.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/repository/SaleDetailRepository.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/GestionPedidoApplication.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/model/SaleDetail.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/DTO/OrderDTO.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/repository/SaleRepository.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/controller/PlateController.java
+/home/diegohr/Documentos/foodfix/microservice/foodfix/gestionPedido/src/main/java/com/example/demo123/controller/SaleController.java
