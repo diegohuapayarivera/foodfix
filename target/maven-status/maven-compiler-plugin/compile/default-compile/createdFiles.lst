@@ -1,0 +1,5 @@
+com/vg/mongodb/document/Order.class
+com/vg/mongodb/document/Plate.class
+com/vg/mongodb/MongodbApplication.class
+com/vg/mongodb/controller/OrderController.class
+com/vg/mongodb/repository/OrderRepository.class

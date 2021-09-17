@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: com.vg.mongodb.MongodbApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.005 s <<< FAILURE! - in com.vg.mongodb.MongodbApplicationTests
+com.vg.mongodb.MongodbApplicationTests  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.NoSuchMethodError: 'org.springframework.util.ReflectionUtils$MethodFilter org.springframework.util.ReflectionUtils$MethodFilter.and(org.springframework.util.ReflectionUtils$MethodFilter)'
+
