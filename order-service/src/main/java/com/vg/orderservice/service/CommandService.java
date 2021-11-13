@@ -51,10 +51,6 @@ public class CommandService {
         return commandDTONew;
     }
 
-    public static void main(String[] args) {
-         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
-        System.out.println(LocalTime.now().format(formatter));
-    }
 }
 
 
