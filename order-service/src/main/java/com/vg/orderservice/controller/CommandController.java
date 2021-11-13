@@ -1,6 +1,8 @@
 package com.vg.orderservice.controller;
 
 import com.vg.orderservice.dto.CommandDTO;
+import com.vg.orderservice.entity.Command;
+import com.vg.orderservice.model.Sale;
 import com.vg.orderservice.service.CommandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +31,11 @@ public class CommandController {
         if (orderDTONew == null)
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(orderDTO);
+    }
+
+    @PostMapping("/savesale")
+    public ResponseEntity<Sale> saveSale(@RequestBody Command command){
+        Sale saleNew = commandService.saveSale(command);
+        return ResponseEntity.ok(saleNew);
     }
 }

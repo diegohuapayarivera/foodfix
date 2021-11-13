@@ -1,6 +1,6 @@
 spring:
   application:
-    name: order-service
+    name: sale-service
   datasource:
     url: jdbc:postgresql://ec2-34-233-114-40.compute-1.amazonaws.com:5432/deq2fnrceqhhva
     username: ywdfprwvxhtypp
@@ -10,5 +10,7 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-server:
-  port: 8001
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
