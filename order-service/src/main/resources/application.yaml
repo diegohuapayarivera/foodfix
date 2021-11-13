@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:postgresql://ec2-34-233-114-40.compute-1.amazonaws.com:5432/deq2fnrceqhhva
+    username: ywdfprwvxhtypp
+    password: fbd7e6ac14a678b60e153182828c3348804d7510d9ca5747f6dab769256489cd
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+server:
+  port: 8001
