@@ -6,7 +6,9 @@ import com.vg.orderservice.entity.Plate;
 import com.vg.orderservice.model.Sale;
 import com.vg.orderservice.service.CommandService;
 import com.vg.orderservice.service.PlateService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,17 +40,22 @@ public class CommandController {
         return ResponseEntity.ok(orderDTO);
     }
 
-    @PostMapping("/savesale")
-    public ResponseEntity<Sale> saveSale(@RequestBody Command command){
-        Sale saleNew = commandService.saveSale(command);
-        return ResponseEntity.ok(saleNew);
-    }
-
     @GetMapping("/plate")
     public ResponseEntity<List<Plate>> getPlates() {
         List<Plate> plates = plateService.getAll();
         if (plates.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(plates);
+    }
+
+    @CircuitBreaker(name = "salesBC", fallbackMethod = "fallBackSaveSale")
+    @PostMapping("/savesale")
+    public ResponseEntity<Sale> saveSale(@RequestBody Command command){
+        Sale saleNew = commandService.saveSale(command);
+        return ResponseEntity.ok(saleNew);
+    }
+
+    private ResponseEntity<Sale> fallBackSaveSale(@RequestBody Command command){
+        return new ResponseEntity("El microservicio sale esta en mantimiento, no se pudo realizar la orden " + command.getId(), HttpStatus.OK);
     }
 }
