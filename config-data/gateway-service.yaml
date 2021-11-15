@@ -22,7 +22,6 @@ spring:
           uri: lb://order-service
           predicates:
             - Path=/order/**
-            - Path=/plate/**
         - id: sale-service
           uri: lb://sale-service
           predicates:
