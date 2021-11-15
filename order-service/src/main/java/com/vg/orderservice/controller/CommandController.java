@@ -48,7 +48,7 @@ public class CommandController {
         return ResponseEntity.ok(plates);
     }
 
-    @CircuitBreaker(name = "salesBC", fallbackMethod = "fallBackSaveSale")
+    @CircuitBreaker(name = "salesCB", fallbackMethod = "fallBackSaveSale")
     @PostMapping("/savesale")
     public ResponseEntity<Sale> saveSale(@RequestBody Command command){
         Sale saleNew = commandService.saveSale(command);
