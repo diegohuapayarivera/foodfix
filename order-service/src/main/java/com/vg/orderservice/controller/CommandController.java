@@ -55,7 +55,7 @@ public class CommandController {
         return ResponseEntity.ok(saleNew);
     }
 
-    private ResponseEntity<Sale> fallBackSaveSale(@RequestBody Command command){
-        return new ResponseEntity("El microservicio sale esta en mantimiento, no se pudo realizar la orden " + command.getId(), HttpStatus.OK);
+    private ResponseEntity<Sale> fallBackSaveSale(@RequestBody Command command, RuntimeException e){
+        return new ResponseEntity("El microservicio sale esta en mantimiento", HttpStatus.OK);
     }
 }
