@@ -2,6 +2,7 @@ package com.vg.orderservice.controller;
 
 import com.vg.orderservice.dto.CommandDTO;
 import com.vg.orderservice.entity.Command;
+import com.vg.orderservice.entity.CommandDetail;
 import com.vg.orderservice.entity.Plate;
 import com.vg.orderservice.model.Sale;
 import com.vg.orderservice.service.CommandService;
@@ -12,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
@@ -25,7 +28,7 @@ public class CommandController {
     private CommandService commandService;
 
     @GetMapping
-    public ResponseEntity<List<CommandDTO>> getAll(){
+    public ResponseEntity<List<CommandDTO>> getAll() {
         List<CommandDTO> commandDTOS = commandService.getAll();
         if (commandDTOS.isEmpty())
             return ResponseEntity.noContent().build();
@@ -33,7 +36,7 @@ public class CommandController {
     }
 
     @PostMapping
-    public ResponseEntity<CommandDTO> save(@RequestBody CommandDTO orderDTO){
+    public ResponseEntity<CommandDTO> save(@RequestBody CommandDTO orderDTO) {
         CommandDTO orderDTONew = commandService.save(orderDTO);
         if (orderDTONew == null)
             return ResponseEntity.noContent().build();
@@ -50,12 +53,28 @@ public class CommandController {
 
     @CircuitBreaker(name = "salesCB", fallbackMethod = "fallBackSaveSale")
     @PostMapping("/savesale")
-    public ResponseEntity<Sale> saveSale(@RequestBody Command command){
+    public ResponseEntity<Sale> saveSale(@RequestBody Command command) {
         Sale saleNew = commandService.saveSale(command);
         return ResponseEntity.ok(saleNew);
     }
 
-    private ResponseEntity<Sale> fallBackSaveSale(@RequestBody Command command, RuntimeException e){
-        return new ResponseEntity("El microservicio sale esta en mantimiento", HttpStatus.OK);
+    private ResponseEntity<Map<String, Object>> fallBackSaveSale(@RequestBody Command command, RuntimeException e) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("Mensaje", "Microservicio Sale-service inactivo o en matenimiento");
+        response.put("Request", command);
+        return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/updateOrder")
+    public ResponseEntity<Command> updateCommand(@RequestBody Command command) {
+        System.out.println("command.toString() = " + command.toString());
+        return ResponseEntity.ok(commandService.updateCommand(command));
+    }
+
+    @PostMapping("/updateOrderDetail")
+    public ResponseEntity<CommandDetail> updateCommandDetail(@RequestBody CommandDetail commandDetail) {
+        System.out.println("command.toString() = " + commandDetail.toString());
+        return ResponseEntity.ok(commandService.updateCommandDetail(commandDetail));
+    }
+
 }

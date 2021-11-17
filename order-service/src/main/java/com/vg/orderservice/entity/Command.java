@@ -1,9 +1,6 @@
 package com.vg.orderservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -14,6 +11,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "command")
+@ToString
 public class Command {
 
     @Id
@@ -21,7 +19,7 @@ public class Command {
     @Column(name = "id")
     private int id;
     @Column(name = "state")
-    private char state;
+    private String state;
     @Column(name = "start")
     private LocalTime start;
     @Column(name = "tablet")

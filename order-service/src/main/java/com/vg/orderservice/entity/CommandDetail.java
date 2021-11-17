@@ -10,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
+@ToString
 public class CommandDetail {
 
     @Id
