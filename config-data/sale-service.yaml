@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:${SERVER_PORT:0}}
+  port: 8002
 eureka:
   client:
     fetch-registry: true
@@ -7,4 +7,4 @@ eureka:
     service-url:
       default-zone: https://eurekaservicefoodfix.herokuapp.com/eureka
   instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${server.port}
