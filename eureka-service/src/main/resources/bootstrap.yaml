@@ -3,5 +3,5 @@ spring:
     name: eureka-service
   cloud:
     config:
-      uri: https://configservicefoodfix.herokuapp.com/
+      uri: http://localhost:8081
       enabled: true

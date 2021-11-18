@@ -1,6 +1,5 @@
 server:
   port: 8081
-
 spring:
   cloud:
     config:
@@ -9,5 +8,6 @@ spring:
           default-label: microservice
           uri: https://github.com/diegohuapayarivera/foodfix
           search-paths: config-data
+        bootstrap: true
   application:
     name: config-service

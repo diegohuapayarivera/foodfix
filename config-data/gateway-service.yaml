@@ -24,4 +24,3 @@ spring:
           uri: lb://sale-service
           predicates:
             - Path=/sale/**
-
