@@ -9,7 +9,6 @@ import com.vg.orderservice.service.CommandService;
 import com.vg.orderservice.service.PlateService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +18,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
+        RequestMethod.DELETE})
 public class CommandController {
 
     @Autowired
@@ -36,11 +37,9 @@ public class CommandController {
     }
 
     @PostMapping
-    public ResponseEntity<CommandDTO> save(@RequestBody CommandDTO orderDTO) {
-        CommandDTO orderDTONew = commandService.save(orderDTO);
-        if (orderDTONew == null)
-            return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(orderDTO);
+    public ResponseEntity<CommandDTO> save(@RequestBody CommandDTO commandDTO) {
+        System.out.println("orderDTO.toString() = " + commandDTO.toString());
+        return ResponseEntity.ok(commandService.save(commandDTO));
     }
 
     @GetMapping("/plate")
@@ -75,6 +74,11 @@ public class CommandController {
     public ResponseEntity<CommandDetail> updateCommandDetail(@RequestBody CommandDetail commandDetail) {
         System.out.println("command.toString() = " + commandDetail.toString());
         return ResponseEntity.ok(commandService.updateCommandDetail(commandDetail));
+    }
+
+    @PostMapping("/plate")
+    public ResponseEntity<Plate> savePlate(@RequestBody Plate plate) {
+        return ResponseEntity.ok(plateService.save(plate));
     }
 
 }

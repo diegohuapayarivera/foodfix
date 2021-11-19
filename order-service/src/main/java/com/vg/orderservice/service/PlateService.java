@@ -15,9 +15,11 @@ public class PlateService {
     @Autowired
     PlateRepository plateRepository;
 
-    public List<Plate> getAll(){
-        return plateRepository.findAll(Sort.by(Sort.Direction.ASC,"Id"));
+    public List<Plate> getAll() {
+        return plateRepository.findAll(Sort.by(Sort.Direction.ASC, "Id"));
     }
 
-
+    public Plate save(Plate plate) {
+        return plateRepository.save(plate);
+    }
 }

@@ -2,9 +2,9 @@ spring:
   application:
     name: sale-service
   datasource:
-    url: jdbc:postgresql://ec2-34-233-114-40.compute-1.amazonaws.com:5432/deq2fnrceqhhva
-    username: ywdfprwvxhtypp
-    password: fbd7e6ac14a678b60e153182828c3348804d7510d9ca5747f6dab769256489cd
+    url: jdbc:postgresql://ec2-54-157-100-65.compute-1.amazonaws.com:5432/d32q0k57enfern
+    username: yayemhyyrnwxzx
+    password: e06e63bcf3ead241ab7af02bafa6da20b04c8b5ea0f9a413f3202911fd6db098
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,4 +13,4 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: https://configservicefoodfix.herokuapp.com/
+      uri: http://localhost:8081
