@@ -1,7 +1,8 @@
+import axios from "axios";
 const getPlates = async () => {
-  const url = "https://gestionpedidosmicroservice.herokuapp.com/api/plates/";
-  const res = await fetch(url);
-  const plates = await res.json();
+  const url = "http://localhost:8001/order/plate";
+  const res = await axios.get(url);
+  const plates = res.data;
   return plates;
 };
 

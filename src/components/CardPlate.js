@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import getPlates from "../helpers/getPlates";
 
+
 const Card = ({ plate, setPlate, addOrderList, sendOrder }) => {
   const [plates, setPlates] = useState([]);
 
@@ -20,7 +21,16 @@ const Card = ({ plate, setPlate, addOrderList, sendOrder }) => {
   };
 
   const onChange = (e) => {
-    const selectPlate = plates.filter((plateDTO) => plateDTO.id === parseInt(plate.plate_id));
+    /*selectPlate es el plato seleccionado en el opcion
+      plates son todos los platos obtenidos de la BD 
+      validamos si el plato selecionado tiene un ID
+      en caso no tenga un ID significa que no se selecciono nada 
+      y si tiene un id obtenemos el nombre del plato por el ID seleccionado 
+    */
+    const selectPlate = plates.filter(
+      (plateDTO) => plateDTO.id === parseInt(plate.plate_id)
+    );
+    //Si tiene un ID guardamos en el estado SetPlate
     if (selectPlate.length > 0) {
       const namePlate = selectPlate[0];
       setPlate({
@@ -32,8 +42,6 @@ const Card = ({ plate, setPlate, addOrderList, sendOrder }) => {
     }
     setPlate({ ...plate, [e.target.name]: e.target.value });
   };
-
- 
 
   return (
     <div className="card p-3">

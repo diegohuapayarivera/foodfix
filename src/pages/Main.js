@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import CardPlate from "../components/CardPlate";
 import Table from "../components/Table";
 import postOrder from "../helpers/postOrder";
+import {Toaster, toast} from 'react-hot-toast'
+
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3030", { transports: ["websocket"] });
 
 const initialPlate = {
   plate_id: "",
@@ -15,30 +20,53 @@ const Main = () => {
   const [plate, setPlate] = useState(initialPlate);
   const [plates, setPlates] = useState([]);
 
+  /*const validateFormAddList = () => {
+    const { plate_id, amount} = plate
+    if (plate_id === '' || amount === '') {
+        console.log('No tiene nada')
+    }
+  };*/
+
   const addOrderList = () => {
+    //validateFormAddList()
     setPlates([...plates, plate]);
     setPlate({
       plate_id: "",
       amount: "",
-      observation: "",
+      observation: plate.observation,
       name: "",
       table: plate.table,
     });
   };
 
   const sendOrder = () => {
-    const platesDTO = [];
-    plates.forEach((plate) => {
-      const { plate_id, amount, observation } = plate;
-      platesDTO.push({ plate_id, amount, observation });
+    const platesDTO = plates.map((newPlate) => {
+      const { plate_id, amount } = newPlate;
+      return { plate_id, amount };
     });
     const orderDTO = {
-      table: plate.table,
-      plates: platesDTO,
+      command: {
+        tablet: plate.table,
+        observation: plate.observation
+      },
+      commandDetails: platesDTO,
     };
-    postOrder(orderDTO).then((newOrder) => console.log(newOrder));
-    setPlates([])
-    setPlate(initialPlate)
+    //console.log("Asi estamos enviando al servidor",orderDTO);
+    //postOrder(orderDTO).then((newOrder) => console.log(newOrder));
+    const resultOrder = postOrder(orderDTO);
+    toast.promise(resultOrder, {
+      loading: "Cargando...",
+      success: "Se envio",
+      error: (error) => "Ocurrio un error"
+    })
+    socket.emit("Plate:newOrder");
+    //toast.success("Se envio con exito")
+    resetState();
+  };
+
+  const resetState = () => {
+    setPlates([]);
+    setPlate(initialPlate);
   };
 
   return (
@@ -54,6 +82,7 @@ const Main = () => {
       <div className="col-12 col-sm-4 pt-2">
         <Table plates={plates} setPlates={setPlates} setPlate={setPlate} />
       </div>
+      <Toaster/>
     </div>
   );
 };

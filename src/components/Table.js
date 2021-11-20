@@ -2,13 +2,12 @@ import React from "react";
 
 const Table = ({ plates, setPlates }) => {
   const onClickDelete = (deleteOrder) => {
-    const newOrders = plates.filter(
-      (order) => order.plate_id !== deleteOrder.plate_id
+    const platesNew = plates.filter(
+      (platesNew) => platesNew.plate_id !== deleteOrder.plate_id
     );
 
-    setPlates([...newOrders]);
+    setPlates([...platesNew]);
   };
-
 
   return (
     <div className="card p-3">

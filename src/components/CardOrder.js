@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import getPlates from "../helpers/getPlates";
+import ListOrder from "./ListOrder";
+import ListOrderDetail from "./ListOrderDetail";
 
 const CardOrder = ({ orders }) => {
   const [plates, setPlates] = useState([]);
-
-  const getPlateName = (plateObj) => {
-    const platesNames = plates.filter(
-      (plate) => plate.id === plateObj.plate_id
-    );
-    return platesNames.map((plateName) => plateName.name);
-  };
 
   const updatePlate = () => {
     getPlates()
@@ -24,18 +19,20 @@ const CardOrder = ({ orders }) => {
   return (
     <>
       {orders.map((order) => (
-        <div key={order.id} className="col-12 col-sm-4 ">
+        <div key={order.command.id} className="col-12 col-sm-4 ">
           <div className="card p-2 m-2 mt-3">
-            <div className="card-header">Mesa: {order.table}</div>
+            <div className="card-header row">
+              <ListOrder command={order.command}/>
+            </div>
             <div className="card-body">
               <ul className="list-group list-group-flush">
-                {order.plates.map((plate) => (
-                  <li key={plate.plate_id} className="list-group-item">
-                    <span className="badge badge-dark text-muted">
-                      X{plate.amount}
-                    </span>
-                    {getPlateName(plate)}
-                  </li>
+                {order.commandDetails.map((commandDetail) => (
+                  <ListOrderDetail
+                    key={commandDetail.id}
+                    commandDetail={commandDetail}
+                    plates={plates}
+                    updatePlate={updatePlate}
+                  />
                 ))}
               </ul>
             </div>
