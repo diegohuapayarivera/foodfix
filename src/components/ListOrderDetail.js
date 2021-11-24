@@ -18,13 +18,6 @@ const ListOrderDetail = ({ commandDetail, plates }) => {
     postOrderDetailUpdate(data).then((orderDetailNew) =>
       console.log(orderDetailNew)
     );
-    console.log("Esto estamo enviando", {
-      id,
-      plate_id,
-      state: !state,
-      amount,
-      order_id,
-    });
     socket.emit("OrderDetail:newOrderDetail");
   };
   return (

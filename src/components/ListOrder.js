@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import postOrderUpdate from "../helpers/postOrderUpdate";
 
-const ListOrder = ({ command }) => {
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3030", { transports: ["websocket"] });
+
+const ListOrder = ({ command, changueStateObservation }) => {
   const { tablet, start, id, state, observation } = command;
-  const [stateOrder, setStateOrder] = useState(state);
 
   const changeOrdeState = (e) => {
     const data = {
@@ -13,24 +16,29 @@ const ListOrder = ({ command }) => {
       start,
       state: e.target.value,
     };
-    postOrderUpdate(data).then((orderupdate) =>console.log("Esto trajo ", orderupdate ))
+    postOrderUpdate(data).then((orderupdate) =>
+      console.log("Esto trajo ", orderupdate)
+    );
+    socket.emit("OrderDetail:newOrderDetail");
   };
   return (
     <>
-      <div className="col-sm-4">
+      <div className="col-sm-4 col-6">
         <label>
           Mesa: {tablet} : {start}
         </label>
       </div>
-      <div className="col-sm-4 me-auto">
-        <button className="btn btn-primary">Observación</button>
+      <div className="col-sm-4 me-auto col-6">
+        <button className="btn btn-primary" onClick={changueStateObservation}>
+          Observación
+        </button>
       </div>
-      <div className="col-sm-4">
+      <div className="col-sm-4 col-6">
         <label>
           <select
             className="form-select"
             aria-label="Default select example"
-            value={stateOrder}
+            value={state}
             onChange={changeOrdeState}
           >
             <option value="I">Iniciado</option>
