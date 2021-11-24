@@ -1,6 +1,7 @@
 import express from "express";
-import Server from "socket.io";
+import { Server } from "socket.io";
 import { createServer } from "http";
+import { Socket } from "dgram";
 
 const app = express();
 const httpServer = createServer(app, {
@@ -11,19 +12,24 @@ const httpServer = createServer(app, {
     credentials: true,
   },
 });
-const io = Server(httpServer);
+const io = new Server(httpServer);
 
 io.on("connection", (socket) => {
   socket.emit("test", "Test from server");
 
-  socket.on('Plate:newOrder', () => {
-    console.log('recibi la orden, ahora la envio');
-    io.emit('Order:newOrder')
-  })
+  socket.on("Plate:newOrder", () => {
+    console.log("recibi la orden, ahora la envio");
+    io.emit("Order:newOrder");
+  });
 
   socket.on("OrderDetail:newOrderDetail", () => {
+    console.log("Recibi el mensaje de actualizar ordenes detail");
+    io.emit("Order:newOrder");
+  });
+
+  socket.on("Order:OrderUpdate", () => {
     console.log("Recibi el mensaje de actualizar ordeness");
-    io.emit('Order:newOrder')
+    io.emit("Order:newOrder");
   })
 });
 
