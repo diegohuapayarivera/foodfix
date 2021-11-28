@@ -10,8 +10,20 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  cloud:
-    config:
-      enabled: true
-      uri: http://localhost:8081
-
+  #cloud:
+    #config:
+      #enabled: true
+      #uri: http://localhost:8081
+server:
+  port: 8001
+resilience4j.circuitbreaker:
+  instances:
+    salesCB:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: TIME_BASED
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10

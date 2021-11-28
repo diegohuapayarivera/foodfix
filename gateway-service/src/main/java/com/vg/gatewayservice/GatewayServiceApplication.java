@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @SpringBootApplication
 @EnableEurekaClient
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
-        RequestMethod.DELETE})
 public class GatewayServiceApplication {
 
     public static void main(String[] args) {

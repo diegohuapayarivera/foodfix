@@ -10,7 +10,9 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  cloud:
-    config:
-      enabled: true
-      uri: http://localhost:8081
+  #cloud:
+    #config:
+      #enabled: true
+      #uri: http://localhost:8081
+server:
+  port: 8002

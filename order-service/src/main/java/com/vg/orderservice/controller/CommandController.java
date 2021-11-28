@@ -18,8 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
-        RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 public class CommandController {
 
     @Autowired
@@ -29,8 +28,16 @@ public class CommandController {
     private CommandService commandService;
 
     @GetMapping
-    public ResponseEntity<List<CommandDTO>> getAll() {
-        List<CommandDTO> commandDTOS = commandService.getAll();
+    public ResponseEntity<List<CommandDTO>> getInitateAndProcessStates() {
+        List<CommandDTO> commandDTOS = commandService.getInitateAndProcessStates();
+        if (commandDTOS.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(commandDTOS);
+    }
+
+    @GetMapping("/finished")
+    public ResponseEntity<List<CommandDTO>> getFinishedStates(){
+        List<CommandDTO> commandDTOS = commandService.getFinishedStates();
         if (commandDTOS.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(commandDTOS);
@@ -80,5 +87,7 @@ public class CommandController {
     public ResponseEntity<Plate> savePlate(@RequestBody Plate plate) {
         return ResponseEntity.ok(plateService.save(plate));
     }
+
+
 
 }

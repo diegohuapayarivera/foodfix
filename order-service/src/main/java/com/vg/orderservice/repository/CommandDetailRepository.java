@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface CommandDetailRepository extends JpaRepository<CommandDetail, Integer> {
 
-    @Query(value = "SELECT * FROM commanddetail WHERE commanddetail.order_id = :idCommandDetail", nativeQuery = true)
+    @Query(value = "SELECT * FROM commanddetail WHERE commanddetail.order_id = :idCommandDetail order by commanddetail.state asc", nativeQuery = true)
     List<CommandDetail> findAllByOrder_Id(@Param("idCommandDetail") int idCommandDetail);
 }
