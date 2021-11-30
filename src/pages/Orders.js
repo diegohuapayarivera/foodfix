@@ -11,7 +11,13 @@ const Orders = () => {
 
   const updateOrders = () => {
     getOrders()
-      .then((newOrders) => setOrders(newOrders))
+      .then((newOrders) => {
+        if (newOrders.length == 0) {
+          setOrders([])
+        } else {
+          setOrders(newOrders)
+        }
+      })
       .catch((err) => console.error(err));
   };
 
@@ -25,7 +31,13 @@ const Orders = () => {
 
   return (
     <div className="row ">
-      <CardOrder orders={orders} />
+      {orders.length == 0 ? (
+        <div className="col-4">
+          <div className="alert alert-danger m-5" role="alert">
+            No tienes ningun pedido
+          </div>
+        </div>
+      ) : <CardOrder orders={orders} />}
     </div>
   );
 };
