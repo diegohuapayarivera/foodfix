@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import CardPlate from "../components/CardPlate";
 import Table from "../components/Table";
 import postOrder from "../helpers/postOrder";
-import {Toaster, toast} from 'react-hot-toast'
+import { Toaster, toast } from "react-hot-toast";
 
 import io from "socket.io-client";
 
-const socket = io("http://54.226.50.179:30008", { transports: ["websocket"] });
+const socket = io("http://3.90.213.95:30008", { transports: ["websocket"] });
 
 const initialPlate = {
   plate_id: "",
@@ -29,6 +29,15 @@ const Main = () => {
 
   const addOrderList = () => {
     //validateFormAddList()
+    if (plate.plate_id === 0 || plate.plate_id === "") {
+      toast.error("Seleccione un plato de comida");
+      return;
+    }
+    if (plate.amount === 0 || plate.amount === "") {
+      toast.error("Agregue una cantidad mayor a 0");
+      return;
+    }
+
     setPlates([...plates, plate]);
     setPlate({
       plate_id: "",
@@ -40,6 +49,15 @@ const Main = () => {
   };
 
   const sendOrder = () => {
+    if (plate.table === 0 || plate.table == "") {
+      toast.error("Seleccione una mesa");
+      return;
+    }
+    if (plates.length === 0) {
+      toast.error("No tiene ningun plato seleccionado");
+      return;
+    }
+
     const platesDTO = plates.map((newPlate) => {
       const { plate_id, amount } = newPlate;
       return { plate_id, amount };
@@ -47,7 +65,7 @@ const Main = () => {
     const orderDTO = {
       command: {
         tablet: plate.table,
-        observation: plate.observation
+        observation: plate.observation,
       },
       commandDetails: platesDTO,
     };
@@ -57,8 +75,8 @@ const Main = () => {
     toast.promise(resultOrder, {
       loading: "Cargando...",
       success: "Se envio",
-      error: (error) => "Ocurrio un error"
-    })
+      error: (error) => "Ocurrio un error",
+    });
     socket.emit("Plate:newOrder");
     //toast.success("Se envio con exito")
     resetState();
@@ -82,7 +100,7 @@ const Main = () => {
       <div className="col-12 col-sm-4 pt-2">
         <Table plates={plates} setPlates={setPlates} setPlate={setPlate} />
       </div>
-      <Toaster/>
+      <Toaster />
     </div>
   );
 };

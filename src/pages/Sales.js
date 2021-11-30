@@ -10,26 +10,31 @@ import postSale from "../helpers/postSale";
 
 import io from "socket.io-client";
 
-const socket = io("http://54.226.50.179:30008", { transports: ["websocket"] });
+const socket = io("http://3.90.213.95:30008", { transports: ["websocket"] });
 
 const Sales = () => {
   const [orders, setOrders] = useState([]);
   const [plates, setPlates] = useState([]);
   const [order, setOrder] = useState(0);
 
-  const orderOptions = orders.map((orderNew) => {
+  /*const orderOptions = orders.map((orderNew) => {
     const data = {
       key: orderNew.command.id,
       tablet: orderNew.command.tablet,
     };
     return data;
-  });
+  });*/
 
   const updateOrder = () => {
     getOrdersFinished()
       .then((newOrders) => {
-        setOrders(newOrders);
-        // console.log(newOrders);
+        if(newOrders.length == 0){
+          setOrders([])
+        }
+        else{
+          setOrders(newOrders);
+        }
+        console.log(newOrders);
       })
       .catch((err) => console.log(err));
   };
@@ -86,21 +91,25 @@ const Sales = () => {
             onChange={selectOrderFinished}
           >
             <option value="0">Seleccion un pedido</option>
-            {orderOptions.map((orderOption) => (
-              <option key={orderOption.key} value={orderOption.key}>
-                Mesa : {orderOption.tablet}
+            {orders.map((order) => (
+              <option
+                key={order.command.id}
+                value={order.command.id}
+              >
+                Mesa : {order.command.tablet}
               </option>
             ))}
           </select>
-          <table className="table mt-4 table-bordered border-secondary">
-            {order == "0" || order == undefined ? (
-              <div className="alert alert-danger" role="alert">
-                Seleccione un pedido
-              </div>
-            ) : (
+          {order == "0" || order == undefined ? (
+            <div className="alert alert-danger mt-4" role="alert">
+              Seleccione un pedido
+            </div>
+          ) : (
+            <table className="table mt-4 table-bordered border-secondary">
               <TableFinished command={order.command} />
-            )}
-          </table>
+            </table>
+          )}
+
           {order == "0" || order == undefined ? (
             <button
               className="btn btn-primary bnt-block mt-2"
