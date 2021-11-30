@@ -31,6 +31,11 @@ io.on("connection", (socket) => {
     console.log("Recibi el mensaje de actualizar ordeness");
     io.emit("Order:newOrder");
   })
+
+  socket.on("Orders:SaleOrder", () => {
+    console.log("Recibi el mensaje de actualizar ordenes finales");
+    io.emit("Order:updateOrders");
+  })
 });
 
 httpServer.listen(3030);
