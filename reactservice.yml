@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactservice
+  labels:
+    app: reactservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : reactservice
+  template:
+    metadata:
+      labels:
+        app: reactservice
+    spec:
+      containers:
+        - name: reactservice
+          image: 015813010/reactservice
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3030
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name:  reactservice
+spec:
+  type: NodePort
+  selector:
+    app:  reactservice
+  ports:
+    - port:  80
+      targetPort:  3030
+      nodePort: 30008
