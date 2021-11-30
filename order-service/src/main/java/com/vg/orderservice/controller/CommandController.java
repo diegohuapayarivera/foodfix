@@ -66,7 +66,7 @@ public class CommandController {
 
     private ResponseEntity<Map<String, Object>> fallBackSaveSale(@RequestBody Command command, RuntimeException e) {
         Map<String, Object> response = new HashMap<>();
-        response.put("Mensaje", "Microservicio Sale-service inactivo o en matenimiento");
+        response.put("Mensaje", "El microservicio Sale-service esta inactivo o en matenimiento");
         response.put("Request", command);
         return ResponseEntity.ok(response);
     }

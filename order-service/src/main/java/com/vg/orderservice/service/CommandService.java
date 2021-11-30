@@ -28,8 +28,6 @@ public class CommandService {
     @Autowired
     private SaleFeignClient saleFeignClient;
 
-    private RestTemplate restTemplate;
-
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
 
     public List<CommandDTO> getInitateAndProcessStates() {
