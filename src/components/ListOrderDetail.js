@@ -3,7 +3,7 @@ import postOrderDetailUpdate from "../helpers/postOrderDetailUpdate";
 
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3030", { transports: ["websocket"] });
+const socket = io("http://54.226.50.179:30008", { transports: ["websocket"] });
 
 const ListOrderDetail = ({ commandDetail, plates }) => {
   const { id, plate_id, order_id, state, amount } = commandDetail;

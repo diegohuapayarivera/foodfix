@@ -3,7 +3,7 @@ import postOrderUpdate from "../helpers/postOrderUpdate";
 
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3030", { transports: ["websocket"] });
+const socket = io("http://54.226.50.179:30008", { transports: ["websocket"] });
 
 const ListOrder = ({ command, changueStateObservation }) => {
   const { tablet, start, id, state, observation } = command;

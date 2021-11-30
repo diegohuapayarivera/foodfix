@@ -1,6 +1,6 @@
 import axios from "axios";
 const getOrders = async () => {
-  const url = "http://localhost:8001/order";
+  const url = "http://54.226.50.179:30007/order";
   const res = await axios.get(url);
   const orders = res.data;
   return orders;
