@@ -31,7 +31,11 @@ const Navigation = () => {
                    Ver Pedidos
                 </a>
               </li>
-              
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="/sale">
+                   Generar Venta
+                </a>
+              </li>
             </ul>
           </div>
         </div>

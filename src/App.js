@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Main from "./pages/Main";
 import Orders from "./pages/Orders";
+import Sales from "./pages/Sales";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <Route exact path="/" component={Main} />
         <Route exact path="/pedidos" component={Orders} />
+        <Route exact path="/sale" component={Sales} />
       </Router>
     </div>
   );
