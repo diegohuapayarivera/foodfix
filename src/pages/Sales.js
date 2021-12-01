@@ -16,6 +16,7 @@ const Sales = () => {
   const [orders, setOrders] = useState([]);
   const [plates, setPlates] = useState([]);
   const [order, setOrder] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   /*const orderOptions = orders.map((orderNew) => {
     const data = {
@@ -28,13 +29,13 @@ const Sales = () => {
   const updateOrder = () => {
     getOrdersFinished()
       .then((newOrders) => {
-        if(newOrders.length == 0){
-          setOrders([])
-        }
-        else{
+        if (newOrders.length == 0) {
+          setOrders([]);
+        } else {
           setOrders(newOrders);
         }
         console.log(newOrders);
+        // console.log(newOrders);
       })
       .catch((err) => console.log(err));
   };
@@ -76,6 +77,21 @@ const Sales = () => {
     updateOrder();
   });
 
+  const totalPriceAmount = () => {
+    const pricesTotals = order.commandDetails.map((commandDetails) => {
+      return {
+        prices: plates.filter(
+          (plate) => plate.id === commandDetails.plate_id
+        )[0],
+        amounts: commandDetails.amount,
+      };
+    });
+
+    return pricesTotals
+      .map((pricetotal) => pricetotal.amounts * pricetotal.prices.price)
+      .reduce((accumulator, curr) => accumulator + curr);
+  };
+
   useEffect(() => {
     updateOrder();
     updatePlate();
@@ -92,10 +108,7 @@ const Sales = () => {
           >
             <option value="0">Seleccion un pedido</option>
             {orders.map((order) => (
-              <option
-                key={order.command.id}
-                value={order.command.id}
-              >
+              <option key={order.command.id} value={order.command.id}>
                 Mesa : {order.command.tablet}
               </option>
             ))}
@@ -106,7 +119,7 @@ const Sales = () => {
             </div>
           ) : (
             <table className="table mt-4 table-bordered border-secondary">
-              <TableFinished command={order.command} />
+              <TableFinished command={order.command} totalPriceAmount={totalPriceAmount} />
             </table>
           )}
 
@@ -121,7 +134,7 @@ const Sales = () => {
           ) : (
             <button
               className="btn btn-primary bnt-block mt-2"
-              onClick={sendSaleOrder}
+              onClick={totalPriceAmount}
             >
               Guardar Venta
             </button>

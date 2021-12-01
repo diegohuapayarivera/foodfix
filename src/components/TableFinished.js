@@ -1,6 +1,6 @@
 import React from "react";
 
-const TableFinished = ({ command }) => {
+const TableFinished = ({ command, totalPriceAmount }) => {
   const { observation, start, state, tablet } = command;
   return (
     <>
@@ -22,7 +22,11 @@ const TableFinished = ({ command }) => {
         </tr>
         <tr>
           <th scope="row">Observación: </th>
-          <td>{observation}</td>
+          <td>{observation === "" ? "No existe observaciones" : observation}</td>
+        </tr>
+        <tr>
+          <th scope="row">Precio total: </th>
+          <td>S/.{totalPriceAmount()}</td>
         </tr>
       </tbody>
     </>

@@ -21,6 +21,11 @@ const CardOrder = ({ orders }) => {
     updatePlate();
   }, []);
 
+  const style = {
+    height: 120,
+    overflowY: "scroll",
+  }
+
   return (
     <>
       {orders.map((order) => (
@@ -33,21 +38,23 @@ const CardOrder = ({ orders }) => {
               />
             </div>
             <div className="card-body">
-              <ul className="list-group list-group-flush">
-                {stateObservation ? (
-                  order.commandDetails.map((commandDetail) => (
-                    <ListOrderDetail
-                      key={commandDetail.id}
-                      commandDetail={commandDetail}
-                      plates={plates}
-                    />
-                  ))
-                ) : (
-                  <li className="list-group-item">
-                    {order.command.observation}
-                  </li>
-                )}
-              </ul>
+              <nav class="navbar navbar-light" style={style}  >
+                <ul className="list-group list-group-flush nav nav-pills">
+                  {stateObservation ? (
+                    order.commandDetails.map((commandDetail) => (
+                      <ListOrderDetail
+                        key={commandDetail.id}
+                        commandDetail={commandDetail}
+                        plates={plates}
+                      />
+                    ))
+                  ) : (
+                    <li className="list-group-item nav-item">
+                      {order.command.observation}
+                    </li>
+                  )}
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
