@@ -29,7 +29,6 @@ public class CommandService {
     private SaleFeignClient saleFeignClient;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
-    private final DateTimeFormatter outFformatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
 
     private final ZoneId idZonaHoraria = ZoneId.of("America/Lima");
 
@@ -39,7 +38,7 @@ public class CommandService {
         commands.stream().forEach(command -> {
             CommandDTO commandDTONew = new CommandDTO();
             //Parse al time
-            command.setStart(LocalTime.parse(command.getStart().format(outFformatter)));
+            command.setStart(LocalTime.parse(command.getStart().format(formatter)));
             //Busco todo los detalle de la comanda por el ID
             List<CommandDetail> commandDetailsNew = commandDetailRepository.findAllByOrder_Id(command.getId());
             //Luego agrego la cabecera y el detalle a la lista
@@ -56,7 +55,7 @@ public class CommandService {
         List<Command> commands = commandRepository.findAllFinishedStates();
         commands.stream().forEach(command -> {
             CommandDTO commandDTONew = new CommandDTO();
-            command.setStart(LocalTime.parse(command.getStart().format(outFformatter)));
+            command.setStart(LocalTime.parse(command.getStart().format(formatter)));
             //Busco todo los detalle de la comanda por el ID
             List<CommandDetail> commandDetailsNew = commandDetailRepository.findAllByOrder_Id(command.getId());
             //Luego agrego la cabecera y el detalle a la lista
