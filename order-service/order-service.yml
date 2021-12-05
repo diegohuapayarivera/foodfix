@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: order-service-app
-          image: 015813010/oder-service
+          image: diegohuapayarivera/order-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8081

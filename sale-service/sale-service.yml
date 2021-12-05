@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: sale-service-app
-          image: 015813010/sale-service
+          image: diegohuapayarivera/sale-service
           imagePullPolicy: Always
           ports:
             - containerPort: 8002

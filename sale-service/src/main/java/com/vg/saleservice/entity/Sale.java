@@ -22,4 +22,6 @@ public class Sale {
 
     private int commaind_id;
     private LocalDate sell;
+    private double total_price;
+
 }

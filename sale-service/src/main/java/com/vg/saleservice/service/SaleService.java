@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class SaleService {
@@ -18,6 +19,11 @@ public class SaleService {
         Sale saleNew = new Sale();
         saleNew.setCommaind_id(commandDTO.getId());
         saleNew.setSell(LocalDate.now());
+        saleNew.setTotal_price(commandDTO.getTotal_price());
         return saleRepository.save(saleNew);
+    }
+
+    public List<Sale> getAll(){
+        return saleRepository.findAll();
     }
 }
