@@ -9,6 +9,7 @@ import com.vg.orderservice.service.CommandService;
 import com.vg.orderservice.service.PlateService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +69,7 @@ public class CommandController {
         Map<String, Object> response = new HashMap<>();
         response.put("Mensaje", "El microservicio Sale-service esta inactivo o en matenimiento");
         response.put("Request", command);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @PostMapping("/updateOrder")
