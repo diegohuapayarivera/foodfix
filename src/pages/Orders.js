@@ -4,7 +4,7 @@ import getOrders from "../helpers/getOrders";
 
 import io from "socket.io-client";
 
-const socket = io("http://3.90.213.95:30008", { transports: ["websocket"] });
+const socket = io("http://100.25.7.210:30008", { transports: ["websocket"] });
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

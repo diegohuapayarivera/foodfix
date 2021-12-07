@@ -10,21 +10,18 @@ import postSale from "../helpers/postSale";
 
 import io from "socket.io-client";
 
-const socket = io("http://3.90.213.95:30008", { transports: ["websocket"] });
+const socket = io("http://100.25.7.210:30008", { transports: ["websocket"] });
+
+const initialOrder = {
+  command: {},
+  commandDetails: [],
+};
 
 const Sales = () => {
   const [orders, setOrders] = useState([]);
   const [plates, setPlates] = useState([]);
-  const [order, setOrder] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  /*const orderOptions = orders.map((orderNew) => {
-    const data = {
-      key: orderNew.command.id,
-      tablet: orderNew.command.tablet,
-    };
-    return data;
-  });*/
+  const [order, setOrder] = useState(initialOrder);
+  const [totalPriceTableFinished, setTotalPriceTableFinished] = useState();
 
   const updateOrder = () => {
     getOrdersFinished()
@@ -34,8 +31,6 @@ const Sales = () => {
         } else {
           setOrders(newOrders);
         }
-        console.log(newOrders);
-        // console.log(newOrders);
       })
       .catch((err) => console.log(err));
   };
@@ -47,7 +42,8 @@ const Sales = () => {
   };
 
   const selectOrderFinished = (e) => {
-    console.log(e.target.value);
+    //busca la orden para vender segun el id
+    //console.log(e.target.value);
     const selectOrder = orders.filter(
       (orderNew) => orderNew.command.id === parseInt(e.target.value)
     );
@@ -56,21 +52,27 @@ const Sales = () => {
 
   const sendSaleOrder = () => {
     const { command, commandDetails } = order;
+
+    //primero recorremos la lista de ordenes para guardar las modificaciones
     commandDetails.forEach((command) => {
       postOrderDetailUpdate(command).then((commandNew) =>
         console.log(commandNew)
       );
     });
+    //luego modifcamos la cabeza, cambiado el estado a vendido "V"
     const data = { ...command, state: "V" };
     postOrderUpdate(data).then((orderNew) => console.log(orderNew));
-    const res = postSale(command);
+    //por ultimo hacmos la peticio al microservico sale-serice
+    const dataSale = { id: command.id, total_price: totalPriceTableFinished };
+    console.log("Esta es la data sale", dataSale);
+    const res = postSale(dataSale);
     toast.promise(res, {
       loading: "Enviando...",
       success: "Se registro con exito",
       error: "Ocurrio un error al resgistrar",
     });
     socket.emit("Orders:SaleOrder");
-    setOrder(0);
+    setOrder(initialOrder);
   };
 
   socket.on("Order:updateOrders", () => {
@@ -78,18 +80,24 @@ const Sales = () => {
   });
 
   const totalPriceAmount = () => {
-    const pricesTotals = order.commandDetails.map((commandDetails) => {
-      return {
-        prices: plates.filter(
-          (plate) => plate.id === commandDetails.plate_id
-        )[0],
-        amounts: commandDetails.amount,
-      };
-    });
+    const listaPrices = order.commandDetails
+      .map((commandDetail) => {
+        if (commandDetail.state) {
+          return plates
+            .filter((plate) => plate.id === commandDetail.plate_id)
+            .map((plate) => plate.price * commandDetail.amount)[0];
+        } else {
+          return 0;
+        }
 
-    return pricesTotals
-      .map((pricetotal) => pricetotal.amounts * pricetotal.prices.price)
-      .reduce((accumulator, curr) => accumulator + curr);
+        /*return plates
+        .filter((plate) => plate.id === commandDetail.plate_id)
+        //.map((plate) => plate.price * commandDetail.amount)[0];*/
+      })
+      .reduce((prev, curr) => prev + curr);
+    let total = 0;
+    setTotalPriceTableFinished(listaPrices);
+    return total;
   };
 
   useEffect(() => {
@@ -105,6 +113,7 @@ const Sales = () => {
           <select
             className="form-select form-control"
             onChange={selectOrderFinished}
+            onClick={totalPriceAmount}
           >
             <option value="0">Seleccion un pedido</option>
             {orders.map((order) => (
@@ -113,17 +122,20 @@ const Sales = () => {
               </option>
             ))}
           </select>
-          {order == "0" || order == undefined ? (
+          {Object.keys(order.command).length === 0 || order == undefined ? (
             <div className="alert alert-danger mt-4" role="alert">
               Seleccione un pedido
             </div>
           ) : (
             <table className="table mt-4 table-bordered border-secondary">
-              <TableFinished command={order.command} totalPriceAmount={totalPriceAmount} />
+              <TableFinished
+                command={order.command}
+                totalPriceTableFinished={totalPriceTableFinished}
+              />
             </table>
           )}
 
-          {order == "0" || order == undefined ? (
+          {Object.keys(order.command).length === 0 || order == undefined ? (
             <button
               className="btn btn-primary bnt-block mt-2"
               onClick={sendSaleOrder}
@@ -134,7 +146,7 @@ const Sales = () => {
           ) : (
             <button
               className="btn btn-primary bnt-block mt-2"
-              onClick={totalPriceAmount}
+              onClick={sendSaleOrder}
             >
               Guardar Venta
             </button>
@@ -143,7 +155,7 @@ const Sales = () => {
       </div>
       <div className="col-12 col-sm-4 pt-2">
         <div className="card">
-          {order == "0" || order == undefined ? (
+          {Object.keys(order.command).length === 0 || order == undefined ? (
             <div className="alert alert-danger m-3" role="alert">
               Seleccione un pedido
             </div>
@@ -153,6 +165,7 @@ const Sales = () => {
                 key={commandDetail.id}
                 commandDetail={commandDetail}
                 plates={plates}
+                totalPriceAmount={totalPriceAmount}
               />
             ))
           )}

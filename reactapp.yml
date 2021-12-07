@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reactapp
-          image: 015813010/reactapp
+          image: diegohuapayarivera/reactapp
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

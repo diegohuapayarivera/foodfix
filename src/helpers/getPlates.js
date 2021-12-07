@@ -1,6 +1,6 @@
 import axios from "axios";
 const getPlates = async () => {
-  const url = "http://3.90.213.95:30007/order/plate";
+  const url = "http://100.25.7.210:30007/order/plate";
   const res = await axios.get(url);
   const plates = res.data;
   return plates;

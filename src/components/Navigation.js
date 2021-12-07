@@ -23,19 +23,23 @@ const Navigation = () => {
             <ul className="navbar-nav">
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/">
-                   Tomar Pedido
+                  Tomar Pedido
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/pedidos">
-                   Ver Pedidos
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="/pedidos"
+                >
+                  Ver Pedidos
                 </a>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/sale">
-                   Generar Venta
+                  Generar Venta
                 </a>
-              </li>
+  </li>*/}
             </ul>
           </div>
         </div>
