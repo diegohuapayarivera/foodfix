@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carrera-service-app
+  labels:
+    app: carrera-service-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app : carrera-service-app
+  template:
+    metadata:
+      labels:
+        app: carrera-service-app
+    spec:
+      containers:
+        - name: carrera-service-app
+          image: diegohuapayarivera/carrera-service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name:  carrera-service-svc
+spec:
+  type: NodePort
+  selector:
+    app:  carrera-service-app
+  ports:
+    - port:  80
+      targetPort:  8080
+      nodePort: 30007
